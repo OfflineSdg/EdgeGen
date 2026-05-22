@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "EdgeGenn"
+name = "EdgeGen"
 version = "0.1.0"
 description = "Agent-library-agnostic framework for mock systems and synthesis testing"
 requires-python = ">=3.10"
