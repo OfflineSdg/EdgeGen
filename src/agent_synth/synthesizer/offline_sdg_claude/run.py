@@ -254,7 +254,7 @@ async def main():
     parser.add_argument("--db-path", type=str, required=True, help="Path to the database")
     parser.add_argument("--sdg-dir", type=str, required=True, help="Path to sdg/ directory with inputs")
     parser.add_argument("--output", type=str, default="output/testcases_claude.json", help="Output JSON path")
-    parser.add_argument("--model", type=str, default="anthropic--claude-4.6-sonnet", help="Claude model for sampler/verifier")
+    parser.add_argument("--model", type=str, default="claude-sonnet-4-6", help="Claude model for sampler/verifier")
     parser.add_argument("--llm-model", type=str, default="azure/gpt-5.4", help="LLM model for generation")
     parser.add_argument("--batch-size", type=int, default=5, help="Number of test cases to generate")
     parser.add_argument("--domain", type=str, default="airline", help="Domain name")

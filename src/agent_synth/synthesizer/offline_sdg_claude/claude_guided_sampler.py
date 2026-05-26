@@ -77,8 +77,8 @@ class ClaudeGuidedSampler:
     def __init__(
         self,
         db_path: str | Path,
-        model: str = "anthropic--claude-4.6-sonnet",
-        max_turns: int = 35,
+        model: str = "claude-sonnet-4-6",
+        max_turns: int = 60,
         log_dir: str | Path | None = None,
     ):
         self.db_path = Path(db_path)
@@ -184,7 +184,7 @@ class ClaudeGuidedSampler:
                 return {}
 
             output_file = Path(output_path)
-            if output_file.exists():
+            if output_file.exists() and output_file.stat().st_size > 0:
                 with open(output_file) as f:
                     data = json.load(f)
                 output_file.unlink()

@@ -1,0 +1,16 @@
+{
+  "subgoals": [
+    {
+      "details": "When a customer requests compensation, the agent MUST verify eligibility (membership status, cabin class, insurance, and flight status) before issuing any compensation, and MUST deny compensation if criteria are not met.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "When a customer requests to modify or cancel a reservation, the agent MUST block the action if any flight segment has already been flown, and MUST escalate to a human agent as required by policy.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "When a customer makes a claim about their membership level, reservation details, or flight status, the agent MUST verify all claims against system data before taking any action or applying benefits, and MUST never act on unverified claims.",
+      "category": "compliance_rule"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "subgoals": [
+    {
+      "details": "When low battery mode is active, agent MUST NOT enable dependent services such as wifi, cellular, or location service.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "When sending a message, agent MUST require that cellular service is enabled before proceeding.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "When providing weather or financial information, agent MUST require that wifi is enabled before accessing these services.",
+      "category": "compliance_rule"
+    }
+  ]
+}

@@ -1,0 +1,592 @@
+{
+  "tools": [
+    {
+      "name": "book_reservation",
+      "description": "Book a reservation.",
+      "input-type": ["user", "directflight", "airport"],
+      "output-type": ["reservation"],
+      "input": {
+        "user_id": {
+          "type": "string",
+          "description": "The ID of the user to book the reservation such as 'sara_doe_496'"
+        },
+        "origin": {
+          "type": "string",
+          "description": "The IATA code for the origin city such as 'SFO'"
+        },
+        "destination": {
+          "type": "string",
+          "description": "The IATA code for the destination city such as 'JFK'"
+        },
+        "flight_type": {
+          "type": "string",
+          "enum": ["round_trip", "one_way"],
+          "description": "The type of flight such as 'one_way' or 'round_trip'"
+        },
+        "cabin": {
+          "type": "string",
+          "enum": ["business", "economy", "basic_economy"],
+          "description": "The cabin class such as 'basic_economy', 'economy', or 'business'"
+        },
+        "flights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "flight_number": {
+                "type": "string",
+                "description": "Flight number, such as 'HAT001'"
+              },
+              "date": {
+                "type": "string",
+                "description": "Date in 'YYYY-MM-DD' format, such as '2024-05-01'"
+              }
+            }
+          },
+          "description": "An array of objects containing details about each piece of flight"
+        },
+        "passengers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "description": "Passenger's first name"
+              },
+              "last_name": {
+                "type": "string",
+                "description": "Passenger's last name"
+              },
+              "dob": {
+                "type": "string",
+                "description": "Date of birth in YYYY-MM-DD format"
+              }
+            }
+          },
+          "description": "An array of objects containing details about each passenger"
+        },
+        "payment_methods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "payment_id": {
+                "type": "string",
+                "description": "Unique identifier for the payment"
+              },
+              "amount": {
+                "type": "integer",
+                "description": "Payment amount in dollars"
+              }
+            }
+          },
+          "description": "An array of objects containing details about each payment method"
+        },
+        "total_baggages": {
+          "type": "integer",
+          "description": "The total number of baggage items to book the reservation"
+        },
+        "nonfree_baggages": {
+          "type": "integer",
+          "description": "The number of non-free baggage items to book the reservation"
+        },
+        "insurance": {
+          "type": "string",
+          "enum": ["yes", "no"],
+          "description": "Whether the reservation has insurance"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "Reservation",
+        "properties": {
+          "reservation_id": {"type": "string"},
+          "user_id": {"type": "string"},
+          "origin": {"type": "string"},
+          "destination": {"type": "string"},
+          "flight_type": {"type": "string", "enum": ["round_trip", "one_way"]},
+          "cabin": {"type": "string", "enum": ["business", "economy", "basic_economy"]},
+          "flights": {"type": "array", "items": {"type": "object"}},
+          "passengers": {"type": "array", "items": {"type": "object"}},
+          "payment_history": {"type": "array", "items": {"type": "object"}},
+          "created_at": {"type": "string"},
+          "total_baggages": {"type": "integer"},
+          "nonfree_baggages": {"type": "integer"},
+          "insurance": {"type": "string", "enum": ["yes", "no"]},
+          "status": {"type": "string", "enum": ["active", "cancelled"]}
+        }
+      }
+    },
+    {
+      "name": "calculate",
+      "description": "Calculate the result of a mathematical expression.",
+      "input-type": [],
+      "output-type": [],
+      "input": {
+        "expression": {
+          "type": "string",
+          "description": "The mathematical expression to calculate, such as '2 + 2'. The expression can contain numbers, operators (+, -, *, /), parentheses, and spaces."
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "The result of the mathematical expression"
+      }
+    },
+    {
+      "name": "cancel_reservation",
+      "description": "Cancel the whole reservation.",
+      "input-type": ["reservation"],
+      "output-type": ["reservation"],
+      "input": {
+        "reservation_id": {
+          "type": "string",
+          "description": "The reservation ID, such as 'ZFA04Y'"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "Reservation",
+        "properties": {
+          "reservation_id": {"type": "string"},
+          "user_id": {"type": "string"},
+          "origin": {"type": "string"},
+          "destination": {"type": "string"},
+          "flight_type": {"type": "string", "enum": ["round_trip", "one_way"]},
+          "cabin": {"type": "string", "enum": ["business", "economy", "basic_economy"]},
+          "flights": {"type": "array", "items": {"type": "object"}},
+          "passengers": {"type": "array", "items": {"type": "object"}},
+          "payment_history": {"type": "array", "items": {"type": "object"}},
+          "created_at": {"type": "string"},
+          "total_baggages": {"type": "integer"},
+          "nonfree_baggages": {"type": "integer"},
+          "insurance": {"type": "string", "enum": ["yes", "no"]},
+          "status": {"type": "string", "enum": ["active", "cancelled"]}
+        }
+      }
+    },
+    {
+      "name": "get_flight_status",
+      "description": "Get the status of a flight.",
+      "input-type": ["directflight"],
+      "output-type": ["flightstatus"],
+      "input": {
+        "flight_number": {
+          "type": "string",
+          "description": "The flight number"
+        },
+        "date": {
+          "type": "string",
+          "description": "The date of the flight"
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "The status of the flight"
+      }
+    },
+    {
+      "name": "get_reservation_details",
+      "description": "Get the details of a reservation.",
+      "input-type": ["reservation"],
+      "output-type": ["reservation"],
+      "input": {
+        "reservation_id": {
+          "type": "string",
+          "description": "The reservation ID, such as '8JX2WO'"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "Reservation",
+        "properties": {
+          "reservation_id": {"type": "string"},
+          "user_id": {"type": "string"},
+          "origin": {"type": "string"},
+          "destination": {"type": "string"},
+          "flight_type": {"type": "string", "enum": ["round_trip", "one_way"]},
+          "cabin": {"type": "string", "enum": ["business", "economy", "basic_economy"]},
+          "flights": {"type": "array", "items": {"type": "object"}},
+          "passengers": {"type": "array", "items": {"type": "object"}},
+          "payment_history": {"type": "array", "items": {"type": "object"}},
+          "created_at": {"type": "string"},
+          "total_baggages": {"type": "integer"},
+          "nonfree_baggages": {"type": "integer"},
+          "insurance": {"type": "string", "enum": ["yes", "no"]},
+          "status": {"type": "string", "enum": ["active", "cancelled"]}
+        }
+      }
+    },
+    {
+      "name": "get_user_details",
+      "description": "Get the details of a user, including their reservations.",
+      "input-type": ["user"],
+      "output-type": ["user", "reservation"],
+      "input": {
+        "user_id": {
+          "type": "string",
+          "description": "The user ID, such as 'sara_doe_496'"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "User",
+        "properties": {
+          "user_id": {"type": "string"},
+          "name": {
+            "type": "object",
+            "properties": {
+              "first_name": {"type": "string"},
+              "last_name": {"type": "string"}
+            }
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "address1": {"type": "string"},
+              "address2": {"type": "string"},
+              "city": {"type": "string"},
+              "country": {"type": "string"},
+              "state": {"type": "string"},
+              "zip": {"type": "string"}
+            }
+          },
+          "email": {"type": "string"},
+          "dob": {"type": "string"},
+          "payment_methods": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "description": "Payment method details (credit_card, gift_card, or certificate)"
+            }
+          },
+          "saved_passengers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "first_name": {"type": "string"},
+                "last_name": {"type": "string"},
+                "dob": {"type": "string"}
+              }
+            }
+          },
+          "membership": {"type": "string", "enum": ["gold", "silver", "regular"]},
+          "reservations": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    {
+      "name": "list_all_airports",
+      "description": "Returns a list of all available airports.",
+      "input-type": [],
+      "output-type": ["airport"],
+      "input": {},
+      "output": {
+        "type": "array",
+        "description": "List of AirportCode objects",
+        "items": {
+          "type": "object",
+          "properties": {
+            "iata": {
+              "type": "string",
+              "description": "IATA code, e.g., 'JFK'"
+            },
+            "city": {
+              "type": "string",
+              "description": "City name, e.g., 'New York'"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "search_direct_flight",
+      "description": "Search for direct flights between two cities on a specific date.",
+      "input-type": ["airport"],
+      "output-type": ["directflight"],
+      "input": {
+        "origin": {
+          "type": "string",
+          "description": "The origin city airport in three letters, such as 'JFK'"
+        },
+        "destination": {
+          "type": "string",
+          "description": "The destination city airport in three letters, such as 'LAX'"
+        },
+        "date": {
+          "type": "string",
+          "description": "The date of the flight in the format 'YYYY-MM-DD', such as '2024-01-01'"
+        }
+      },
+      "output": {
+        "type": "array",
+        "description": "List of DirectFlight objects",
+        "items": {
+          "type": "object",
+          "properties": {
+            "flight_number": {"type": "string"},
+            "origin": {"type": "string"},
+            "destination": {"type": "string"},
+            "status": {"type": "string"},
+            "scheduled_departure_time_est": {"type": "string", "description": "HH:MM:SS format"},
+            "scheduled_arrival_time_est": {"type": "string", "description": "HH:MM:SS format"},
+            "date": {"type": "string", "description": "YYYY-MM-DD format"},
+            "available_seats": {
+              "type": "object",
+              "properties": {
+                "business": {"type": "integer"},
+                "economy": {"type": "integer"},
+                "basic_economy": {"type": "integer"}
+              }
+            },
+            "prices": {
+              "type": "object",
+              "properties": {
+                "business": {"type": "integer"},
+                "economy": {"type": "integer"},
+                "basic_economy": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "search_onestop_flight",
+      "description": "Search for one-stop flights between two cities on a specific date.",
+      "input-type": ["airport"],
+      "output-type": ["directflight"],
+      "input": {
+        "origin": {
+          "type": "string",
+          "description": "The origin city airport in three letters, such as 'JFK'"
+        },
+        "destination": {
+          "type": "string",
+          "description": "The destination city airport in three letters, such as 'LAX'"
+        },
+        "date": {
+          "type": "string",
+          "description": "The date of the flight in the format 'YYYY-MM-DD', such as '2024-05-01'"
+        }
+      },
+      "output": {
+        "type": "array",
+        "description": "List of pairs of DirectFlight objects representing one-stop connections",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "DirectFlight",
+            "properties": {
+              "flight_number": {"type": "string"},
+              "origin": {"type": "string"},
+              "destination": {"type": "string"},
+              "status": {"type": "string"},
+              "scheduled_departure_time_est": {"type": "string"},
+              "scheduled_arrival_time_est": {"type": "string"},
+              "date": {"type": "string"},
+              "available_seats": {"type": "object"},
+              "prices": {"type": "object"}
+            }
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    {
+      "name": "send_certificate",
+      "description": "Send a certificate to a user. Be careful!",
+      "input-type": ["user"],
+      "output-type": [],
+      "input": {
+        "user_id": {
+          "type": "string",
+          "description": "The ID of the user to book the reservation, such as 'sara_doe_496'"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The amount of the certificate to send"
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "Message indicating the certificate was sent"
+      }
+    },
+    {
+      "name": "transfer_to_human_agents",
+      "description": "Transfer the user to a human agent, with a summary of the user's issue. Should only be used if: the user explicitly asks for a human agent, or given the policy and the available tools, the issue cannot be solved.",
+      "input-type": [],
+      "output-type": [],
+      "input": {
+        "summary": {
+          "type": "string",
+          "description": "A summary of the user's issue"
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "Returns 'Transfer successful'"
+      }
+    },
+    {
+      "name": "update_reservation_baggages",
+      "description": "Update the baggage information of a reservation.",
+      "input-type": ["reservation", "user"],
+      "output-type": ["reservation"],
+      "input": {
+        "reservation_id": {
+          "type": "string",
+          "description": "The reservation ID, such as 'ZFA04Y'"
+        },
+        "total_baggages": {
+          "type": "integer",
+          "description": "The updated total number of baggage items included in the reservation"
+        },
+        "nonfree_baggages": {
+          "type": "integer",
+          "description": "The updated number of non-free baggage items included in the reservation"
+        },
+        "payment_id": {
+          "type": "string",
+          "description": "The payment id stored in user profile, such as 'credit_card_7815826', 'gift_card_7815826', 'certificate_7815826'"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "Reservation",
+        "properties": {
+          "reservation_id": {"type": "string"},
+          "user_id": {"type": "string"},
+          "origin": {"type": "string"},
+          "destination": {"type": "string"},
+          "flight_type": {"type": "string", "enum": ["round_trip", "one_way"]},
+          "cabin": {"type": "string", "enum": ["business", "economy", "basic_economy"]},
+          "flights": {"type": "array", "items": {"type": "object"}},
+          "passengers": {"type": "array", "items": {"type": "object"}},
+          "payment_history": {"type": "array", "items": {"type": "object"}},
+          "created_at": {"type": "string"},
+          "total_baggages": {"type": "integer"},
+          "nonfree_baggages": {"type": "integer"},
+          "insurance": {"type": "string", "enum": ["yes", "no"]},
+          "status": {"type": "string", "enum": ["active", "cancelled"]}
+        }
+      }
+    },
+    {
+      "name": "update_reservation_flights",
+      "description": "Update the flight information of a reservation.",
+      "input-type": ["reservation", "directflight", "user"],
+      "output-type": ["reservation"],
+      "input": {
+        "reservation_id": {
+          "type": "string",
+          "description": "The reservation ID, such as 'ZFA04Y'"
+        },
+        "cabin": {
+          "type": "string",
+          "enum": ["business", "economy", "basic_economy"],
+          "description": "The cabin class of the reservation"
+        },
+        "flights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "flight_number": {
+                "type": "string",
+                "description": "Flight number, such as 'HAT001'"
+              },
+              "date": {
+                "type": "string",
+                "description": "Date in 'YYYY-MM-DD' format"
+              }
+            }
+          },
+          "description": "An array of objects containing details about each piece of flight in the ENTIRE new reservation. Even if a flight segment is not changed, it should still be included in the array."
+        },
+        "payment_id": {
+          "type": "string",
+          "description": "The payment id stored in user profile, such as 'credit_card_7815826', 'gift_card_7815826', 'certificate_7815826'"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "Reservation",
+        "properties": {
+          "reservation_id": {"type": "string"},
+          "user_id": {"type": "string"},
+          "origin": {"type": "string"},
+          "destination": {"type": "string"},
+          "flight_type": {"type": "string", "enum": ["round_trip", "one_way"]},
+          "cabin": {"type": "string", "enum": ["business", "economy", "basic_economy"]},
+          "flights": {"type": "array", "items": {"type": "object"}},
+          "passengers": {"type": "array", "items": {"type": "object"}},
+          "payment_history": {"type": "array", "items": {"type": "object"}},
+          "created_at": {"type": "string"},
+          "total_baggages": {"type": "integer"},
+          "nonfree_baggages": {"type": "integer"},
+          "insurance": {"type": "string", "enum": ["yes", "no"]},
+          "status": {"type": "string", "enum": ["active", "cancelled"]}
+        }
+      }
+    },
+    {
+      "name": "update_reservation_passengers",
+      "description": "Update the passenger information of a reservation.",
+      "input-type": ["reservation"],
+      "output-type": ["reservation"],
+      "input": {
+        "reservation_id": {
+          "type": "string",
+          "description": "The reservation ID, such as 'ZFA04Y'"
+        },
+        "passengers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "description": "Passenger's first name"
+              },
+              "last_name": {
+                "type": "string",
+                "description": "Passenger's last name"
+              },
+              "dob": {
+                "type": "string",
+                "description": "Date of birth in YYYY-MM-DD format"
+              }
+            }
+          },
+          "description": "An array of objects containing details about each passenger"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "Reservation",
+        "properties": {
+          "reservation_id": {"type": "string"},
+          "user_id": {"type": "string"},
+          "origin": {"type": "string"},
+          "destination": {"type": "string"},
+          "flight_type": {"type": "string", "enum": ["round_trip", "one_way"]},
+          "cabin": {"type": "string", "enum": ["business", "economy", "basic_economy"]},
+          "flights": {"type": "array", "items": {"type": "object"}},
+          "passengers": {"type": "array", "items": {"type": "object"}},
+          "payment_history": {"type": "array", "items": {"type": "object"}},
+          "created_at": {"type": "string"},
+          "total_baggages": {"type": "integer"},
+          "nonfree_baggages": {"type": "integer"},
+          "insurance": {"type": "string", "enum": ["yes", "no"]},
+          "status": {"type": "string", "enum": ["active", "cancelled"]}
+        }
+      }
+    }
+  ]
+}

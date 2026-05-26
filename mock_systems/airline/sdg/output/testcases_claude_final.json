@@ -1,0 +1,67 @@
+[
+  {
+    "id": "dae4fc7f",
+    "input": [
+      {
+        "role": "user",
+        "content": "You are Monica Reed, user ID USR20260513A1. First ask what airports are available, then ask for a $50 certificate to be sent to your account tied to monica.reed+0513@example.com. After that, explicitly ask to be transferred to a human agent for further help.",
+        "terminating_condition": "The task is considered complete if the instruction goal is satisfied or you are transferred to another agent or you find yourself in a situation in which the scenario does not provide enough information for you to continue the conversation."
+      }
+    ],
+    "metadata": {
+      "subgoals": [
+        {
+          "type": "gradingNotes",
+          "details": "Agent must provide the available airports after the user asks, using the current airport list rather than inventing unavailable locations.",
+          "turn": "all"
+        },
+        {
+          "type": "gradingNotes",
+          "details": "Agent must send a certificate only for the identified user USR20260513A1 and for the requested amount of 50.",
+          "turn": "all"
+        },
+        {
+          "type": "gradingNotes",
+          "details": "Agent should not proactively offer compensation before the user asks for the $50 certificate.",
+          "turn": "all"
+        },
+        {
+          "type": "gradingNotes",
+          "details": "Agent must transfer the conversation to a human agent after the user explicitly requests it.",
+          "turn": "all"
+        },
+        {
+          "type": "gradingNotes",
+          "details": "Agent should include a concise summary in the transfer that references Monica Reed and user ID USR20260513A1.",
+          "turn": "all"
+        }
+      ],
+      "expectedTools": [
+        {
+          "tool_name": "list_all_airports",
+          "parameters": {},
+          "expected_output_type": "list_of_airportcode_objects (array)",
+          "order": 0
+        },
+        {
+          "tool_name": "send_certificate",
+          "parameters": {
+            "user_id": "USR20260513A1",
+            "amount": 50
+          },
+          "expected_output_type": "result (string)",
+          "order": 1
+        },
+        {
+          "tool_name": "transfer_to_human_agents",
+          "parameters": {
+            "summary": "Monica Reed (USR20260513A1) asked for the list of available airports, requested a $50 certificate to her account associated with monica.reed+0513@example.com, and then asked to be transferred to a human agent for further help."
+          },
+          "expected_output_type": "result (string)",
+          "order": 2
+        }
+      ]
+    },
+    "domain": ""
+  }
+]

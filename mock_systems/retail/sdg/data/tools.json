@@ -1,0 +1,410 @@
+{
+  "tools": [
+    {
+      "name": "calculate",
+      "description": "Calculate the result of a mathematical expression.",
+      "input-type": ["mathematical_expression"],
+      "output-type": ["numeric_result"],
+      "input": {
+        "expression": {
+          "type": "string",
+          "description": "The mathematical expression to calculate, such as '2 + 2'. The expression can contain numbers, operators (+, -, *, /), parentheses, and spaces."
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "The result of the mathematical expression as a string."
+      }
+    },
+    {
+      "name": "cancel_pending_order",
+      "description": "Cancel a pending order. If the order is already processed or delivered, it cannot be cancelled. The agent needs to explain the cancellation detail and ask for explicit user confirmation (yes/no) to proceed. If the user confirms, the order status will be changed to 'cancelled' and the payment will be refunded. The refund will be added to the user's gift card balance immediately if the payment was made using a gift card, otherwise the refund would take 5-7 business days to process.",
+      "input-type": ["order_identifier", "cancellation_reason"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason for cancellation, which should be either 'no longer needed' or 'ordered by mistake'."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details after the cancellation.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status (will be 'cancelled')"},
+          "items": {"type": "array", "description": "Items in the order"},
+          "payment_history": {"type": "array", "description": "Payment and refund transactions"},
+          "cancel_reason": {"type": "string", "description": "Reason for cancellation"}
+        }
+      }
+    },
+    {
+      "name": "exchange_delivered_order_items",
+      "description": "Exchange items in a delivered order to new items of the same product type. For a delivered order, return or exchange can be only done once by the agent. The agent needs to explain the exchange detail and ask for explicit user confirmation (yes/no) to proceed.",
+      "input-type": ["order_identifier", "item_identifiers", "payment_identifier"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        },
+        "item_ids": {
+          "type": "array",
+          "description": "The item ids to be exchanged, each such as '1008292230'. There could be duplicate items in the list."
+        },
+        "new_item_ids": {
+          "type": "array",
+          "description": "The item ids to be exchanged for, each such as '1008292230'. There could be duplicate items in the list. Each new item id should match the item id in the same position and be of the same product."
+        },
+        "payment_method_id": {
+          "type": "string",
+          "description": "The payment method id to pay or receive refund for the item price difference, such as 'gift_card_0000000' or 'credit_card_0000000'. These can be looked up from the user or order details."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details after the exchange.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status (will be 'exchange requested')"},
+          "items": {"type": "array", "description": "Items in the order"},
+          "exchange_items": {"type": "array", "description": "Item IDs being exchanged"},
+          "exchange_new_items": {"type": "array", "description": "New item IDs replacing the exchanged items"},
+          "exchange_payment_method_id": {"type": "string", "description": "Payment method for price difference"},
+          "exchange_price_difference": {"type": "number", "description": "Price difference amount"}
+        }
+      }
+    },
+    {
+      "name": "find_user_id_by_name_zip",
+      "description": "Find user id by first name, last name, and zip code. If the user is not found, the function will return an error message. By default, find user id by email, and only call this function if the user is not found by email or cannot remember email.",
+      "input-type": ["user_name", "zip_code"],
+      "output-type": ["user_identifier"],
+      "input": {
+        "first_name": {
+          "type": "string",
+          "description": "The first name of the customer, such as 'John'."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "The last name of the customer, such as 'Doe'."
+        },
+        "zip": {
+          "type": "string",
+          "description": "The zip code of the customer, such as '12345'."
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "The user id if found, otherwise an error message."
+      }
+    },
+    {
+      "name": "find_user_id_by_email",
+      "description": "Find user id by email. If the user is not found, the function will return an error message.",
+      "input-type": ["email_address"],
+      "output-type": ["user_identifier"],
+      "input": {
+        "email": {
+          "type": "string",
+          "description": "The email of the user, such as 'something@example.com'."
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "The user id if found, otherwise an error message."
+      }
+    },
+    {
+      "name": "get_order_details",
+      "description": "Get the status and details of an order.",
+      "input-type": ["order_identifier"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details including status, items, address, fulfillments, and payment history.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status (pending, processed, delivered, cancelled, exchange requested, return requested)"},
+          "address": {"type": "object", "description": "Shipping address"},
+          "items": {"type": "array", "description": "Items in the order with name, product_id, item_id, price, options"},
+          "fulfillments": {"type": "array", "description": "Fulfillment records with tracking IDs"},
+          "payment_history": {"type": "array", "description": "Payment and refund transactions"}
+        }
+      }
+    },
+    {
+      "name": "get_product_details",
+      "description": "Get the inventory details of a product.",
+      "input-type": ["product_identifier"],
+      "output-type": ["product_details"],
+      "input": {
+        "product_id": {
+          "type": "string",
+          "description": "The product id, such as '6086499569'. Be careful the product id is different from the item id."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The product details including name, product_id, and all variants with their options, availability, and prices.",
+        "properties": {
+          "name": {"type": "string", "description": "Name of the product"},
+          "product_id": {"type": "string", "description": "Unique identifier for the product"},
+          "variants": {"type": "object", "description": "Dictionary of variants indexed by item_id, each with options, availability, and price"}
+        }
+      }
+    },
+    {
+      "name": "get_user_details",
+      "description": "Get the details of a user, including their orders.",
+      "input-type": ["user_identifier"],
+      "output-type": ["user_details"],
+      "input": {
+        "user_id": {
+          "type": "string",
+          "description": "The user id, such as 'sara_doe_496'."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The user details including name, address, email, payment methods, and order IDs.",
+        "properties": {
+          "user_id": {"type": "string", "description": "Unique identifier for the user"},
+          "name": {"type": "object", "description": "User's full name with first_name and last_name"},
+          "address": {"type": "object", "description": "User's default address"},
+          "email": {"type": "string", "description": "User's email address"},
+          "payment_methods": {"type": "object", "description": "Dictionary of payment methods (credit_card, gift_card, paypal)"},
+          "orders": {"type": "array", "description": "List of order IDs associated with this user"}
+        }
+      }
+    },
+    {
+      "name": "list_all_product_types",
+      "description": "List the name and product id of all product types. Each product type has a variety of different items with unique item ids and options. There are only 50 product types in the store.",
+      "input-type": [],
+      "output-type": ["product_catalog"],
+      "input": {},
+      "output": {
+        "type": "string",
+        "description": "A JSON string mapping product names to their product IDs, sorted alphabetically by name."
+      }
+    },
+    {
+      "name": "modify_pending_order_address",
+      "description": "Modify the shipping address of a pending order. The agent needs to explain the modification detail and ask for explicit user confirmation (yes/no) to proceed.",
+      "input-type": ["order_identifier", "address"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        },
+        "address1": {
+          "type": "string",
+          "description": "The first line of the address, such as '123 Main St'."
+        },
+        "address2": {
+          "type": "string",
+          "description": "The second line of the address, such as 'Apt 1' or ''."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city, such as 'San Francisco'."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state, such as 'CA'."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country, such as 'USA'."
+        },
+        "zip": {
+          "type": "string",
+          "description": "The zip code, such as '12345'."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details after the address modification.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status"},
+          "address": {"type": "object", "description": "Updated shipping address"}
+        }
+      }
+    },
+    {
+      "name": "modify_pending_order_items",
+      "description": "Modify items in a pending order to new items of the same product type. For a pending order, this function can only be called once. The agent needs to explain the exchange detail and ask for explicit user confirmation (yes/no) to proceed.",
+      "input-type": ["order_identifier", "item_identifiers", "payment_identifier"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        },
+        "item_ids": {
+          "type": "array",
+          "description": "The item ids to be modified, each such as '1008292230'. There could be duplicate items in the list."
+        },
+        "new_item_ids": {
+          "type": "array",
+          "description": "The item ids to be modified for, each such as '1008292230'. There could be duplicate items in the list. Each new item id should match the item id in the same position and be of the same product."
+        },
+        "payment_method_id": {
+          "type": "string",
+          "description": "The payment method id to pay or receive refund for the item price difference, such as 'gift_card_0000000' or 'credit_card_0000000'. These can be looked up from the user or order details."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details after the item modification.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status (will be 'pending (item modified)')"},
+          "items": {"type": "array", "description": "Updated items in the order"},
+          "payment_history": {"type": "array", "description": "Updated payment history with price difference transaction"}
+        }
+      }
+    },
+    {
+      "name": "modify_pending_order_payment",
+      "description": "Modify the payment method of a pending order. The agent needs to explain the modification detail and ask for explicit user confirmation (yes/no) to proceed.",
+      "input-type": ["order_identifier", "payment_identifier"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        },
+        "payment_method_id": {
+          "type": "string",
+          "description": "The payment method id to pay or receive refund for the item price difference, such as 'gift_card_0000000' or 'credit_card_0000000'. These can be looked up from the user or order details."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details after the payment method modification.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status"},
+          "payment_history": {"type": "array", "description": "Updated payment history showing the payment swap"}
+        }
+      }
+    },
+    {
+      "name": "modify_user_address",
+      "description": "Modify the default address of a user. The agent needs to explain the modification detail and ask for explicit user confirmation (yes/no) to proceed.",
+      "input-type": ["user_identifier", "address"],
+      "output-type": ["user_details"],
+      "input": {
+        "user_id": {
+          "type": "string",
+          "description": "The user id, such as 'sara_doe_496'."
+        },
+        "address1": {
+          "type": "string",
+          "description": "The first line of the address, such as '123 Main St'."
+        },
+        "address2": {
+          "type": "string",
+          "description": "The second line of the address, such as 'Apt 1' or ''."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city, such as 'San Francisco'."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state, such as 'CA'."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country, such as 'USA'."
+        },
+        "zip": {
+          "type": "string",
+          "description": "The zip code, such as '12345'."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The user details after the address modification.",
+        "properties": {
+          "user_id": {"type": "string", "description": "Unique identifier for the user"},
+          "name": {"type": "object", "description": "User's full name"},
+          "address": {"type": "object", "description": "Updated default address"},
+          "email": {"type": "string", "description": "User's email"},
+          "payment_methods": {"type": "object", "description": "User's payment methods"},
+          "orders": {"type": "array", "description": "User's order IDs"}
+        }
+      }
+    },
+    {
+      "name": "return_delivered_order_items",
+      "description": "Return some items of a delivered order. The order status will be changed to 'return requested'. The agent needs to explain the return detail and ask for explicit user confirmation (yes/no) to proceed. The user will receive follow-up email for how and where to return the item.",
+      "input-type": ["order_identifier", "item_identifiers", "payment_identifier"],
+      "output-type": ["order_details"],
+      "input": {
+        "order_id": {
+          "type": "string",
+          "description": "The order id, such as '#W0000000'. Be careful there is a '#' symbol at the beginning of the order id."
+        },
+        "item_ids": {
+          "type": "array",
+          "description": "The item ids to be returned, each such as '1008292230'. There could be duplicate items in the list."
+        },
+        "payment_method_id": {
+          "type": "string",
+          "description": "The payment method id to pay or receive refund for the item price difference, such as 'gift_card_0000000' or 'credit_card_0000000'. These can be looked up from the user or order details."
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "The order details after requesting the return.",
+        "properties": {
+          "order_id": {"type": "string", "description": "Unique identifier for the order"},
+          "user_id": {"type": "string", "description": "User who placed the order"},
+          "status": {"type": "string", "description": "Order status (will be 'return requested')"},
+          "items": {"type": "array", "description": "Items in the order"},
+          "return_items": {"type": "array", "description": "Item IDs being returned"},
+          "return_payment_method_id": {"type": "string", "description": "Payment method for the refund"}
+        }
+      }
+    },
+    {
+      "name": "transfer_to_human_agents",
+      "description": "Transfer the user to a human agent, with a summary of the user's issue. Only transfer if the user explicitly asks for a human agent, or given the policy and the available tools, you cannot solve the user's issue.",
+      "input-type": ["issue_summary"],
+      "output-type": ["transfer_confirmation"],
+      "input": {
+        "summary": {
+          "type": "string",
+          "description": "A summary of the user's issue."
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "A message indicating the user has been transferred to a human agent."
+      }
+    }
+  ]
+}

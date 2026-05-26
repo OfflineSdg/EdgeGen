@@ -1,0 +1,24 @@
+{
+  "subgoals": [
+    {
+      "details": "Agent authenticates the user by email or name plus zip code at the start of every conversation and before any account access or action, regardless of whether user_id is provided.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "Agent obtains explicit user confirmation (yes/no) before performing any database-modifying action, such as cancelling orders, modifying orders, processing returns/exchanges, or updating addresses.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "Agent denies and does not process requests that violate business policies, such as modifying processed/cancelled orders, exchanging for a different product type, or making multiple exchange/modify-items calls per order.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "Agent only provides order, product, or profile information for the authenticated user and denies requests related to other users.",
+      "category": "compliance_rule"
+    },
+    {
+      "details": "Agent transfers the conversation to a human agent when the user explicitly requests it or when the request cannot be fulfilled within available tools or policy, and passes a summary of the user's issue to the human agent.",
+      "category": "compliance_rule"
+    }
+  ]
+}

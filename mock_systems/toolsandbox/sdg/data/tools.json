@@ -1,0 +1,819 @@
+{
+  "tools": [
+    {
+      "name": "add_contact",
+      "description": "Add a new contact person to contact database. Entries with identical information are allowed, and will be assigned different person_ids.",
+      "input-type": ["contact_info"],
+      "output-type": ["person_id"],
+      "input": {
+        "name": {
+          "type": "string",
+          "description": "Name of contact person"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number of contact person"
+        },
+        "relationship": {
+          "type": "string",
+          "description": "Optional, relationship between user and this contact"
+        },
+        "is_self": {
+          "type": "boolean",
+          "description": "Optional. Defaults to False. Should be set to True if the contact corresponds to the current user."
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "String format unique identifier for the contact person, this can be passed to other functions which require a unique identifier for this contact person"
+      }
+    },
+    {
+      "name": "modify_contact",
+      "description": "Modify a contact entry with new information provided",
+      "input-type": ["contact_update"],
+      "output-type": ["none"],
+      "input": {
+        "person_id": {
+          "type": "string",
+          "description": "String unique identifier for the contact person"
+        },
+        "name": {
+          "type": "string",
+          "description": "New name for the person"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "New phone number for the person"
+        },
+        "relationship": {
+          "type": "string",
+          "description": "New relationship for the person"
+        },
+        "is_self": {
+          "type": "boolean",
+          "description": "Optional. Defaults to False. Should be set to True if the contact corresponds to the current user."
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "remove_contact",
+      "description": "Remove an existing contact person from contact database.",
+      "input-type": ["person_id"],
+      "output-type": ["none"],
+      "input": {
+        "person_id": {
+          "type": "string",
+          "description": "String format unique identifier of the person to be deleted"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "search_contacts",
+      "description": "Search for a contact person based on provided arguments. Each field has a search criteria of either exact value matching or fuzzy string matching with a predefined threshold.",
+      "input-type": ["contact_query"],
+      "output-type": ["contact_list"],
+      "input": {
+        "person_id": {
+          "type": "string",
+          "description": "String format unique identifier for the contact person, will be exact matched"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of contact person, will be fuzzy matched"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number of contact person, will be exact matched"
+        },
+        "relationship": {
+          "type": "string",
+          "description": "Relationship between user and this contact, will be fuzzy matched"
+        },
+        "is_self": {
+          "type": "boolean",
+          "description": "If the requested contact corresponds to the current user. Will be exact matched"
+        }
+      },
+      "output": {
+        "type": "array",
+        "description": "A List of matching contacts. An empty List if no matching contacts were found",
+        "items": {
+          "type": "object",
+          "properties": {
+            "person_id": {"type": "string"},
+            "name": {"type": "string"},
+            "phone_number": {"type": "string"},
+            "relationship": {"type": "string"},
+            "is_self": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    {
+      "name": "send_message_with_phone_number",
+      "description": "Send a message to a recipient using phone_number",
+      "input-type": ["message_content"],
+      "output-type": ["message_id"],
+      "input": {
+        "phone_number": {
+          "type": "string",
+          "description": "String format phone number to send the message to"
+        },
+        "content": {
+          "type": "string",
+          "description": "Message payload text"
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "String format unique identifier for the message, this can be passed to other functions which require a unique identifier for this message"
+      }
+    },
+    {
+      "name": "search_messages",
+      "description": "Search for a message based on provided arguments. Each field has a search criteria of exact value matching, fuzzy string matching with a predefined threshold, or range matching timestamp with upperbound or lowerbound.",
+      "input-type": ["message_query"],
+      "output-type": ["message_list"],
+      "input": {
+        "message_id": {
+          "type": "string",
+          "description": "String format unique identifier for message, will be exact matched"
+        },
+        "sender_person_id": {
+          "type": "string",
+          "description": "String format unique identifier for the sender, will be exact matched"
+        },
+        "sender_phone_number": {
+          "type": "string",
+          "description": "Phone number for the sender, will be exact matched"
+        },
+        "recipient_person_id": {
+          "type": "string",
+          "description": "String format unique identifier for the recipient, will be exact matched"
+        },
+        "recipient_phone_number": {
+          "type": "string",
+          "description": "Phone number for the recipient, will be exact matched"
+        },
+        "content": {
+          "type": "string",
+          "description": "Message content, will be fuzzy matched"
+        },
+        "creation_timestamp_lowerbound": {
+          "type": "number",
+          "description": "Lowerbound of the POSIX timestamp of the time the message is created"
+        },
+        "creation_timestamp_upperbound": {
+          "type": "number",
+          "description": "Upperbound of the POSIX timestamp of the time the message is created"
+        }
+      },
+      "output": {
+        "type": "array",
+        "description": "A List of matching messages. An empty List if no matching contacts were found",
+        "items": {
+          "type": "object",
+          "properties": {
+            "message_id": {"type": "string"},
+            "sender_person_id": {"type": "string"},
+            "sender_phone_number": {"type": "string"},
+            "recipient_person_id": {"type": "string"},
+            "recipient_phone_number": {"type": "string"},
+            "content": {"type": "string"},
+            "creation_timestamp": {"type": "number"}
+          }
+        }
+      }
+    },
+    {
+      "name": "search_lat_lon",
+      "description": "Search for the address corresponding to a latitude and longitude",
+      "input-type": ["coordinates"],
+      "output-type": ["address"],
+      "input": {
+        "latitude": {
+          "type": "number",
+          "description": "Latitude to search"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude to search"
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "Address string if the address can be found, otherwise return None"
+      }
+    },
+    {
+      "name": "search_location_around_lat_lon",
+      "description": "Search for a location around a latitude and longitude. Location is a surface form query defining the location (business name, point of interest, city/state, or full address). When latitude and longitude are not provided, defaults to search around current location.",
+      "input-type": ["location_query"],
+      "output-type": ["location_list"],
+      "input": {
+        "location": {
+          "type": "string",
+          "description": "Surface form query defining the location"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude to search around. Defaults to current latitude if not provided"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude to search around. Defaults to current longitude if not provided"
+        }
+      },
+      "output": {
+        "type": "array",
+        "description": "A List of dictionary containing various information about the location if found, otherwise return empty list",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "address": {"type": "string"},
+            "category": {"type": "string"},
+            "business_hours": {"type": "object"},
+            "price": {"type": "string"},
+            "phone_number": {"type": "string"},
+            "url": {"type": "string"},
+            "latitude": {"type": "number"},
+            "longitude": {"type": "number"}
+          }
+        }
+      }
+    },
+    {
+      "name": "search_weather_around_lat_lon",
+      "description": "Search for weather information around a latitude and longitude, right now or sometime in the future. Search results contains weather forecast information including condition, temperature, humidity, country, state, timezone.",
+      "input-type": ["weather_query"],
+      "output-type": ["weather_info"],
+      "input": {
+        "days": {
+          "type": "integer",
+          "description": "Number of days to search for past the current time. Defaults to current day if not provided."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude to search around. Defaults to current latitude if not provided"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude to search around. Defaults to current longitude if not provided"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "A dictionary containing weather forecast information if found, otherwise return None",
+        "properties": {
+          "condition": {"type": "string"},
+          "current_temperature": {"type": "number"},
+          "perceived_temperature": {"type": "number"},
+          "humidity": {"type": "number"},
+          "country": {"type": "string"},
+          "state": {"type": "string"},
+          "timezone": {"type": "string"},
+          "temperature_unit": {"type": "string"},
+          "distance_unit": {"type": "string"}
+        }
+      }
+    },
+    {
+      "name": "search_stock",
+      "description": "Search for various information about a stock given a query. The query can be a company name (Apple), stock symbol (AAPL) or exchange name (NASDAQ).",
+      "input-type": ["stock_query"],
+      "output-type": ["stock_info"],
+      "input": {
+        "query": {
+          "type": "string",
+          "description": "A company name (Apple), stock symbol (AAPL) exchange name (NASDAQ)"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "A dictionary containing various optional information about the stock if found, otherwise return None",
+        "properties": {
+          "name": {"type": "string", "description": "The written name of the stock, e.g. Apple"},
+          "symbol": {"type": "string", "description": "The code for the stock, e.g. AAPL"},
+          "exchange": {"type": "string", "description": "The exchange the stock is in, e.g. NASDAQ"},
+          "price": {"type": "number", "description": "Current price of the stock"},
+          "change": {"type": "number", "description": "Absolute diff between current price of the stock and last opening day"},
+          "percent_change": {"type": "number", "description": "Relative diff between current price of the stock and last opening day"},
+          "currency": {"type": "string", "description": "ISO currency of the currency this stock trades in, e.g. USD"}
+        }
+      }
+    },
+    {
+      "name": "convert_currency",
+      "description": "Converts currency amount from one currency to another given their ISO 4217 currency codes",
+      "input-type": ["currency_conversion"],
+      "output-type": ["amount"],
+      "input": {
+        "amount": {
+          "type": "number",
+          "description": "Amount of currency to convert"
+        },
+        "from_currency_code": {
+          "type": "string",
+          "description": "ISO 4217 currency code amount corresponds to"
+        },
+        "to_currency_code": {
+          "type": "string",
+          "description": "ISO 4217 currency code return value corresponds to"
+        }
+      },
+      "output": {
+        "type": "number",
+        "description": "A float amount in to_currency_code"
+      }
+    },
+    {
+      "name": "add_reminder",
+      "description": "Add a reminder",
+      "input-type": ["reminder_content"],
+      "output-type": ["reminder_id"],
+      "input": {
+        "content": {
+          "type": "string",
+          "description": "Content of the reminder"
+        },
+        "reminder_timestamp": {
+          "type": "number",
+          "description": "When the user wants to be reminded. Expressed in POSIX timestamp"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Optional. Latitude of the location associated with this reminder"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Optional. Longitude of the location associated with this reminder"
+        }
+      },
+      "output": {
+        "type": "string",
+        "description": "String format unique identifier for the reminder, this can be passed to other functions which require a unique identifier for this reminder"
+      }
+    },
+    {
+      "name": "modify_reminder",
+      "description": "Modify a reminder with new information provided. Creation timestamp is updated automatically.",
+      "input-type": ["reminder_update"],
+      "output-type": ["none"],
+      "input": {
+        "reminder_id": {
+          "type": "string",
+          "description": "String format unique identifier of the reminder to be modified"
+        },
+        "content": {
+          "type": "string",
+          "description": "New content"
+        },
+        "reminder_timestamp": {
+          "type": "number",
+          "description": "When the user wants to be reminded. Expressed in POSIX timestamp"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Optional. Latitude of the location associated with this reminder"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Optional. Longitude of the location associated with this reminder"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "search_reminder",
+      "description": "Search for a reminder based on provided arguments. Each field has a search criteria of exact value matching, fuzzy string matching with a predefined threshold, or range matching timestamp with upperbound or lowerbound.",
+      "input-type": ["reminder_query"],
+      "output-type": ["reminder_list"],
+      "input": {
+        "reminder_id": {
+          "type": "string",
+          "description": "String format unique identifier for the reminder person, will be exact matched"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the reminder, will be fuzzy matched"
+        },
+        "creation_timestamp_lowerbound": {
+          "type": "number",
+          "description": "Lowerbound of the POSIX timestamp of the time the reminder is created"
+        },
+        "creation_timestamp_upperbound": {
+          "type": "number",
+          "description": "Upperbound of the POSIX timestamp of the time the reminder is created"
+        },
+        "reminder_timestamp_lowerbound": {
+          "type": "number",
+          "description": "Lowerbound of the POSIX timestamp of the time the reminder should be reminded"
+        },
+        "reminder_timestamp_upperbound": {
+          "type": "number",
+          "description": "Upperbound of the POSIX timestamp of the time the reminder should be reminded"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of the location associated with the reminder. Will be exact matched."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of the location associated with the reminder. Will be exact matched."
+        }
+      },
+      "output": {
+        "type": "array",
+        "description": "A List of matching reminders. An empty List if no matching contacts were found",
+        "items": {
+          "type": "object",
+          "properties": {
+            "reminder_id": {"type": "string"},
+            "content": {"type": "string"},
+            "creation_timestamp": {"type": "number"},
+            "reminder_timestamp": {"type": "number"},
+            "latitude": {"type": "number"},
+            "longitude": {"type": "number"}
+          }
+        }
+      }
+    },
+    {
+      "name": "remove_reminder",
+      "description": "Remove a reminder given its unique identifier",
+      "input-type": ["reminder_id"],
+      "output-type": ["none"],
+      "input": {
+        "reminder_id": {
+          "type": "string",
+          "description": "String format unique identifier of the reminder to be removed"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "set_low_battery_mode_status",
+      "description": "Enable / Disable low battery mode. Automatically turns off dependent services (cellular, wifi, location_service) when enabled.",
+      "input-type": ["setting_toggle"],
+      "output-type": ["none"],
+      "input": {
+        "on": {
+          "type": "boolean",
+          "description": "If we want to turn on low battery mode"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "get_low_battery_mode_status",
+      "description": "Request low battery mode status",
+      "input-type": ["none"],
+      "output-type": ["status"],
+      "input": {},
+      "output": {
+        "type": "boolean",
+        "description": "Boolean indicating if the low battery mode is on"
+      }
+    },
+    {
+      "name": "set_location_service_status",
+      "description": "Enable / Disable location service. Cannot be turned on when low battery mode is enabled.",
+      "input-type": ["setting_toggle"],
+      "output-type": ["none"],
+      "input": {
+        "on": {
+          "type": "boolean",
+          "description": "If we want to turn on location service"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "get_location_service_status",
+      "description": "Request location service status",
+      "input-type": ["none"],
+      "output-type": ["status"],
+      "input": {},
+      "output": {
+        "type": "boolean",
+        "description": "Boolean indicating if the location service is on"
+      }
+    },
+    {
+      "name": "set_cellular_service_status",
+      "description": "Enable / Disable cellular service. Cannot be turned on when low battery mode is enabled.",
+      "input-type": ["setting_toggle"],
+      "output-type": ["none"],
+      "input": {
+        "on": {
+          "type": "boolean",
+          "description": "If we want to turn on cellular service"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "get_cellular_service_status",
+      "description": "Request cellular service status",
+      "input-type": ["none"],
+      "output-type": ["status"],
+      "input": {},
+      "output": {
+        "type": "boolean",
+        "description": "Boolean indicating if the cellular service is on"
+      }
+    },
+    {
+      "name": "set_wifi_status",
+      "description": "Enable / Disable wifi. Cannot be turned on when low battery mode is enabled.",
+      "input-type": ["setting_toggle"],
+      "output-type": ["none"],
+      "input": {
+        "on": {
+          "type": "boolean",
+          "description": "If we want to turn on wifi"
+        }
+      },
+      "output": {
+        "type": "null",
+        "description": "No return value"
+      }
+    },
+    {
+      "name": "get_wifi_status",
+      "description": "Request wifi status",
+      "input-type": ["none"],
+      "output-type": ["status"],
+      "input": {},
+      "output": {
+        "type": "boolean",
+        "description": "Boolean indicating if the wifi is on"
+      }
+    },
+    {
+      "name": "get_current_location",
+      "description": "Request current location latitude and longitude. Requires location service to be enabled.",
+      "input-type": ["none"],
+      "output-type": ["coordinates"],
+      "input": {},
+      "output": {
+        "type": "object",
+        "description": "A dictionary of latitude and longitude",
+        "properties": {
+          "latitude": {"type": "number"},
+          "longitude": {"type": "number"}
+        }
+      }
+    },
+    {
+      "name": "get_current_timestamp",
+      "description": "Get current POSIX timestamp",
+      "input-type": ["none"],
+      "output-type": ["timestamp"],
+      "input": {},
+      "output": {
+        "type": "number",
+        "description": "Float value POSIX timestamp"
+      }
+    },
+    {
+      "name": "timestamp_to_datetime_info",
+      "description": "Convert POSIX timestamp to a dictionary of date time information, including year, month, day, hour, minute, second, isoweekday (ranges from 1-7)",
+      "input-type": ["timestamp"],
+      "output-type": ["datetime_info"],
+      "input": {
+        "timestamp": {
+          "type": "number",
+          "description": "Float representing POSIX timestamp"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "A dictionary of current date time information",
+        "properties": {
+          "year": {"type": "integer"},
+          "month": {"type": "integer"},
+          "day": {"type": "integer"},
+          "hour": {"type": "integer"},
+          "minute": {"type": "integer"},
+          "second": {"type": "integer"},
+          "isoweekday": {"type": "integer"}
+        }
+      }
+    },
+    {
+      "name": "datetime_info_to_timestamp",
+      "description": "Convert date time information to POSIX timestamp",
+      "input-type": ["datetime_info"],
+      "output-type": ["timestamp"],
+      "input": {
+        "year": {
+          "type": "integer",
+          "description": "Year of timestamp"
+        },
+        "month": {
+          "type": "integer",
+          "description": "Month of timestamp"
+        },
+        "day": {
+          "type": "integer",
+          "description": "Day of timestamp"
+        },
+        "hour": {
+          "type": "integer",
+          "description": "Hour of timestamp in 24hr format"
+        },
+        "minute": {
+          "type": "integer",
+          "description": "Minute of timestamp"
+        },
+        "second": {
+          "type": "integer",
+          "description": "Second of timestamp"
+        }
+      },
+      "output": {
+        "type": "number",
+        "description": "POSIX timestamp"
+      }
+    },
+    {
+      "name": "shift_timestamp",
+      "description": "Shifts a POSIX timestamp by provided deltas. Delta can be positive or negative.",
+      "input-type": ["timestamp_shift"],
+      "output-type": ["timestamp"],
+      "input": {
+        "timestamp": {
+          "type": "number",
+          "description": "POSIX timestamp to be shifted"
+        },
+        "weeks": {
+          "type": "integer",
+          "description": "Number of weeks to add or subtract"
+        },
+        "days": {
+          "type": "integer",
+          "description": "Number of days to add or subtract"
+        },
+        "hours": {
+          "type": "integer",
+          "description": "Number of hours to add or subtract"
+        },
+        "minutes": {
+          "type": "integer",
+          "description": "Number of minutes to add or subtract"
+        },
+        "seconds": {
+          "type": "integer",
+          "description": "Number of seconds to add or subtract"
+        }
+      },
+      "output": {
+        "type": "number",
+        "description": "A shifted POSIX timestamp with deltas applied"
+      }
+    },
+    {
+      "name": "timestamp_diff",
+      "description": "Calculates the difference between two timestamps (timestamp_1 - timestamp_0), return the difference represented in days and seconds",
+      "input-type": ["timestamp_pair"],
+      "output-type": ["time_diff"],
+      "input": {
+        "timestamp_0": {
+          "type": "number",
+          "description": "Timestamp to subtract"
+        },
+        "timestamp_1": {
+          "type": "number",
+          "description": "Timestamp to subtract from"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "A dictionary containing the difference between timestamp in days and seconds",
+        "properties": {
+          "days": {"type": "integer"},
+          "seconds": {"type": "integer"}
+        }
+      }
+    },
+    {
+      "name": "seconds_to_hours_minutes_seconds",
+      "description": "Convert total number of seconds past 0:00 into hours, minutes and seconds",
+      "input-type": ["seconds"],
+      "output-type": ["time_components"],
+      "input": {
+        "seconds": {
+          "type": "number",
+          "description": "Number of seconds past 0:00"
+        }
+      },
+      "output": {
+        "type": "object",
+        "description": "A dictionary of hours, minutes and seconds",
+        "properties": {
+          "hour": {"type": "integer"},
+          "minute": {"type": "integer"},
+          "second": {"type": "integer"}
+        }
+      }
+    },
+    {
+      "name": "unit_conversion",
+      "description": "Convert a certain amount from one unit to another. You can use common english names to represent the from and to units.",
+      "input-type": ["unit_conversion"],
+      "output-type": ["amount"],
+      "input": {
+        "amount": {
+          "type": "number",
+          "description": "Float point amount in from_unit"
+        },
+        "from_unit": {
+          "type": "string",
+          "description": "Unit to convert from. For example celsius"
+        },
+        "to_unit": {
+          "type": "string",
+          "description": "Unit to convert to. For example fahrenheit"
+        }
+      },
+      "output": {
+        "type": "number",
+        "description": "Converted amount"
+      }
+    },
+    {
+      "name": "calculate_lat_lon_distance",
+      "description": "Calculate the distance between 2 pairs of latitude and longitude",
+      "input-type": ["coordinate_pair"],
+      "output-type": ["distance"],
+      "input": {
+        "latitude_0": {
+          "type": "number",
+          "description": "First Latitude"
+        },
+        "longitude_0": {
+          "type": "number",
+          "description": "First Longitude"
+        },
+        "latitude_1": {
+          "type": "number",
+          "description": "Second Latitude"
+        },
+        "longitude_1": {
+          "type": "number",
+          "description": "Second Longitude"
+        }
+      },
+      "output": {
+        "type": "number",
+        "description": "Distance between the 2 pairs in kilometer"
+      }
+    },
+    {
+      "name": "search_holiday",
+      "description": "Search for a holiday by name in the US. Canonicalize return value into corresponding POSIX timestamp.",
+      "input-type": ["holiday_query"],
+      "output-type": ["timestamp"],
+      "input": {
+        "holiday_name": {
+          "type": "string",
+          "description": "Name of the holiday in surface form string"
+        },
+        "year": {
+          "type": "integer",
+          "description": "Optional. Year to search the holiday in. When not provided defaults to current year."
+        }
+      },
+      "output": {
+        "type": "number",
+        "description": "POSIX timestamp of holiday if the holiday can be found, otherwise return None"
+      }
+    }
+  ]
+}
