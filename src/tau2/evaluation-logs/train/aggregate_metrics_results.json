@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-05-21 09:17:59",
+  "agent_model": "openai/gemma-4-e4b",
+  "agent": "Tau2BenchSession",
+  "max_turns": 15,
+  "user_proxy_model": "gpt-4.1",
+  "user_proxy_persona": "expert",
+  "n_trials": 2,
+  "summary": {
+    "n_trials": 2,
+    "n_samples": 10,
+    "total_runs": 20,
+    "successful": 20,
+    "failed": 0,
+    "avg_turns": 9.3,
+    "failed_runs": []
+  },
+  "n_samples": 10,
+  "metrics": {
+    "max_progress_rate": {
+      "max_per_sample": {
+        "ddd6787e": 0.5,
+        "b1aa5565": 0.125,
+        "31ae3d6c": 1.0,
+        "18584d05": 0.75,
+        "c6e09cc1": 0.8,
+        "283b3f8d": 0.0,
+        "a56df0d7": 0.75,
+        "626af2fe": 0.5,
+        "d94e5b08": 0.6667,
+        "cccade4b": 0.6667
+      },
+      "avg_max": 0.57584,
+      "count": 10
+    },
+    "mean_progress_rate": {
+      "per_sample": {
+        "ddd6787e": 0.5,
+        "b1aa5565": 0.125,
+        "31ae3d6c": 0.75,
+        "18584d05": 0.625,
+        "c6e09cc1": 0.7,
+        "283b3f8d": 0.0,
+        "a56df0d7": 0.75,
+        "626af2fe": 0.25,
+        "d94e5b08": 0.5,
+        "cccade4b": 0.6667
+      },
+      "avg": 0.48667,
+      "count": 10
+    },
+    "total_tokens": {
+      "avg_per_sample": {
+        "ddd6787e": 74839.5,
+        "b1aa5565": 128896,
+        "31ae3d6c": 17988.5,
+        "18584d05": 28481.5,
+        "c6e09cc1": 92176,
+        "283b3f8d": 49373,
+        "a56df0d7": 95048,
+        "626af2fe": 119956.5,
+        "d94e5b08": 129543,
+        "cccade4b": 124315.5
+      },
+      "avg": 86061.75,
+      "count": 10
+    },
+    "tool_call_count": {
+      "avg_per_sample": {
+        "ddd6787e": 6,
+        "b1aa5565": 5.5,
+        "31ae3d6c": 1.5,
+        "18584d05": 1.5,
+        "c6e09cc1": 8,
+        "283b3f8d": 3,
+        "a56df0d7": 5,
+        "626af2fe": 5.5,
+        "d94e5b08": 7.5,
+        "cccade4b": 8
+      },
+      "avg": 5.15,
+      "count": 10
+    },
+    "pass@k": {
+      "k": 2,
+      "per_sample": {
+        "ddd6787e": 0.0,
+        "b1aa5565": 0.0,
+        "31ae3d6c": 1.0,
+        "18584d05": 0.0,
+        "c6e09cc1": 0.0,
+        "283b3f8d": 0.0,
+        "a56df0d7": 0.0,
+        "626af2fe": 0.0,
+        "d94e5b08": 0.0,
+        "cccade4b": 0.0
+      },
+      "avg": 0.1,
+      "count": 10
+    },
+    "pass^k": {
+      "k": 2,
+      "per_sample": {
+        "ddd6787e": 0.0,
+        "b1aa5565": 0.0,
+        "31ae3d6c": 0.0,
+        "18584d05": 0.0,
+        "c6e09cc1": 0.0,
+        "283b3f8d": 0.0,
+        "a56df0d7": 0.0,
+        "626af2fe": 0.0,
+        "d94e5b08": 0.0,
+        "cccade4b": 0.0
+      },
+      "avg": 0.0,
+      "count": 10
+    }
+  }
+}
