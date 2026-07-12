@@ -8,10 +8,10 @@ from typing import Optional
 from rich.prompt import IntPrompt, Prompt
 from rich.text import Text
 
-from tau2_optimized_harness_real_10.data_model.simulation import Results
-from tau2_optimized_harness_real_10.metrics.agent_metrics import compute_metrics, is_successful
-from tau2_optimized_harness_real_10.utils.display import ConsoleDisplay
-from tau2_optimized_harness_real_10.utils.utils import DATA_DIR
+from tau2.data_model.simulation import Results
+from tau2.metrics.agent_metrics import compute_metrics, is_successful
+from tau2.utils.display import ConsoleDisplay
+from tau2.utils.utils import DATA_DIR
 
 
 def get_available_simulations():

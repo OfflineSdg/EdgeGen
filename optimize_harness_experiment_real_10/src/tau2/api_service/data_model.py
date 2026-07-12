@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from tau2_optimized_harness_real_10.data_model.tasks import Task
+from tau2.data_model.tasks import Task
 
 
 class GetTasksRequest(BaseModel):

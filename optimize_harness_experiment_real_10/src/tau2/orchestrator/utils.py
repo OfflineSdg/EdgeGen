@@ -1,4 +1,4 @@
-from tau2_optimized_harness_real_10.data_model.message import AssistantMessage, Message, ToolMessage
+from tau2.data_model.message import AssistantMessage, Message, ToolMessage
 
 
 def is_valid_environment_message(msg: Message) -> bool:

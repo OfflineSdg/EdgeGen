@@ -2,16 +2,16 @@ from typing import Optional, Tuple
 
 from loguru import logger
 
-from tau2_optimized_harness_syn_10.data_model.message import (
+from tau2.data_model.message import (
     Message,
     MultiToolMessage,
     SystemMessage,
     ToolCall,
     UserMessage,
 )
-from tau2_optimized_harness_syn_10.data_model.tasks import UserInstructions
-from tau2_optimized_harness_syn_10.environment.tool import Tool
-from tau2_optimized_harness_syn_10.user.base import (
+from tau2.data_model.tasks import UserInstructions
+from tau2.environment.tool import Tool
+from tau2.user.base import (
     OUT_OF_SCOPE,
     STOP,
     TRANSFER,
@@ -20,8 +20,8 @@ from tau2_optimized_harness_syn_10.user.base import (
     ValidUserInputMessage,
     is_valid_user_history_message,
 )
-from tau2_optimized_harness_syn_10.utils import DATA_DIR
-from tau2_optimized_harness_syn_10.utils.llm_utils import generate
+from tau2.utils import DATA_DIR
+from tau2.utils.llm_utils import generate
 
 GLOBAL_USER_SIM_GUIDELINES_DIR = DATA_DIR / "tau2" / "user_simulator"
 

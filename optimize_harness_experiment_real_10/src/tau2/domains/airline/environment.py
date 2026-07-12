@@ -2,15 +2,15 @@
 import json
 from typing import Optional
 
-from tau2_optimized_harness_real_10.data_model.tasks import Task
-from tau2_optimized_harness_real_10.domains.airline.data_model import FlightDB
-from tau2_optimized_harness_real_10.domains.airline.tools import AirlineTools
-from tau2_optimized_harness_real_10.domains.airline.utils import (
+from tau2.data_model.tasks import Task
+from tau2.domains.airline.data_model import FlightDB
+from tau2.domains.airline.tools import AirlineTools
+from tau2.domains.airline.utils import (
     AIRLINE_DB_PATH,
     AIRLINE_POLICY_PATH,
     AIRLINE_TASK_SET_PATH,
 )
-from tau2_optimized_harness_real_10.environment.environment import Environment
+from tau2.environment.environment import Environment
 
 
 def get_environment(

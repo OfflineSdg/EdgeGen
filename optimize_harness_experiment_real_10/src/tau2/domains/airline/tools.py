@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from loguru import logger
 
-from tau2_optimized_harness_real_10.domains.airline.data_model import (
+from tau2.domains.airline.data_model import (
     AirportCode,
     AirportInfo,
     CabinClass,
@@ -24,7 +24,7 @@ from tau2_optimized_harness_real_10.domains.airline.data_model import (
     ReservationFlight,
     User,
 )
-from tau2_optimized_harness_real_10.environment.toolkit import ToolKitBase, ToolType, is_tool
+from tau2.environment.toolkit import ToolKitBase, ToolType, is_tool
 
 # TODO: Add an abstract base class for the tools
 
@@ -743,7 +743,7 @@ class AirlineTools(ToolKitBase):  # Tools
 
 
 if __name__ == "__main__":
-    from tau2_optimized_harness_real_10.domains.airline.utils import AIRLINE_DB_PATH
+    from tau2.domains.airline.utils import AIRLINE_DB_PATH
 
     airline = AirlineTools(FlightDB.load(AIRLINE_DB_PATH))
     print(airline.get_statistics())

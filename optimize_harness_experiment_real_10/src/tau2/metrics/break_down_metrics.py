@@ -1,9 +1,9 @@
 import pandas as pd
 
-from tau2_optimized_harness_real_10.data_model.simulation import Results, RewardInfo, RewardType
-from tau2_optimized_harness_real_10.environment.toolkit import ToolType
-from tau2_optimized_harness_real_10.metrics.agent_metrics import is_successful
-from tau2_optimized_harness_real_10.registry import registry
+from tau2.data_model.simulation import Results, RewardInfo, RewardType
+from tau2.environment.toolkit import ToolType
+from tau2.metrics.agent_metrics import is_successful
+from tau2.registry import registry
 
 
 def get_write_tools(domain):

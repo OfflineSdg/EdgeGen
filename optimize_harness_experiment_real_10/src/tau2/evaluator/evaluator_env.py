@@ -2,11 +2,11 @@ from typing import Callable
 
 from loguru import logger
 
-from tau2_optimized_harness_real_10.data_model.message import AssistantMessage, Message, ToolCall, UserMessage
-from tau2_optimized_harness_real_10.data_model.simulation import DBCheck, EnvAssertionCheck, RewardInfo
-from tau2_optimized_harness_real_10.data_model.tasks import RewardType, Task
-from tau2_optimized_harness_real_10.environment.environment import Environment
-from tau2_optimized_harness_real_10.evaluator.evaluator_base import EvaluatorBase
+from tau2.data_model.message import AssistantMessage, Message, ToolCall, UserMessage
+from tau2.data_model.simulation import DBCheck, EnvAssertionCheck, RewardInfo
+from tau2.data_model.tasks import RewardType, Task
+from tau2.environment.environment import Environment
+from tau2.evaluator.evaluator_base import EvaluatorBase
 
 
 class EnvironmentEvaluator(EvaluatorBase):

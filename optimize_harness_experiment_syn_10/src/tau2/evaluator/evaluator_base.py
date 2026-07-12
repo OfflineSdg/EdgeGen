@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from tau2_optimized_harness_syn_10.data_model.message import Message
-from tau2_optimized_harness_syn_10.data_model.simulation import RewardInfo
-from tau2_optimized_harness_syn_10.data_model.tasks import Task
+from tau2.data_model.message import Message
+from tau2.data_model.simulation import RewardInfo
+from tau2.data_model.tasks import Task
 
 
 class EvaluatorBase(ABC):

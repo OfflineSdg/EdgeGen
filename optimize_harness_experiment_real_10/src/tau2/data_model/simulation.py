@@ -7,7 +7,7 @@ import pandas as pd
 from pydantic import BaseModel, Field
 from typing_extensions import Annotated
 
-from tau2_optimized_harness_real_10.config import (
+from tau2.config import (
     DEFAULT_LLM_AGENT,
     DEFAULT_LLM_ARGS_AGENT,
     DEFAULT_LLM_ARGS_USER,
@@ -20,10 +20,10 @@ from tau2_optimized_harness_real_10.config import (
     DEFAULT_SAVE_TO,
     DEFAULT_SEED,
 )
-from tau2_optimized_harness_real_10.data_model.message import Message
-from tau2_optimized_harness_real_10.data_model.tasks import Action, EnvAssertion, RewardType, Task
-from tau2_optimized_harness_real_10.environment.environment import EnvironmentInfo
-from tau2_optimized_harness_real_10.utils.utils import get_now
+from tau2.data_model.message import Message
+from tau2.data_model.tasks import Action, EnvAssertion, RewardType, Task
+from tau2.environment.environment import EnvironmentInfo
+from tau2.utils.utils import get_now
 
 
 class RunConfig(BaseModel):

@@ -3,10 +3,10 @@
 import uvicorn
 from fastapi import FastAPI, HTTPException
 
-from tau2_optimized_harness_real_10.config import API_PORT
-from tau2_optimized_harness_real_10.data_model.simulation import Results, RunConfig
-from tau2_optimized_harness_real_10.registry import RegistryInfo
-from tau2_optimized_harness_real_10.run import get_options, load_tasks, run_domain
+from tau2.config import API_PORT
+from tau2.data_model.simulation import Results, RunConfig
+from tau2.registry import RegistryInfo
+from tau2.run import get_options, load_tasks, run_domain
 
 from .data_model import GetTasksRequest, GetTasksResponse
 

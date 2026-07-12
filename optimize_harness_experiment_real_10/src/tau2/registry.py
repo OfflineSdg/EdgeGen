@@ -4,16 +4,16 @@ from typing import Callable, Dict, Optional, Type
 from loguru import logger
 from pydantic import BaseModel
 
-from tau2_optimized_harness_real_10.agent.base import BaseAgent
-from tau2_optimized_harness_real_10.agent.llm_agent import LLMAgent, LLMGTAgent, LLMSoloAgent
-from tau2_optimized_harness_real_10.data_model.tasks import Task
-from tau2_optimized_harness_real_10.domains.airline.environment import (
+from tau2.agent.base import BaseAgent
+from tau2.agent.llm_agent import LLMAgent, LLMGTAgent, LLMSoloAgent
+from tau2.data_model.tasks import Task
+from tau2.domains.airline.environment import (
     get_environment as airline_domain_get_environment,
 )
-from tau2_optimized_harness_real_10.domains.airline.environment import get_tasks as airline_domain_get_tasks
-from tau2_optimized_harness_real_10.environment.environment import Environment
-from tau2_optimized_harness_real_10.user.base import BaseUser
-from tau2_optimized_harness_real_10.user.user_simulator import DummyUser, UserSimulator
+from tau2.domains.airline.environment import get_tasks as airline_domain_get_tasks
+from tau2.environment.environment import Environment
+from tau2.user.base import BaseUser
+from tau2.user.user_simulator import DummyUser, UserSimulator
 
 
 class RegistryInfo(BaseModel):

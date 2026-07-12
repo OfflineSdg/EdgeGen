@@ -4,11 +4,11 @@ from typing import Dict, Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from tau2_optimized_harness_syn_10.data_model.message import AssistantMessage, Message, ToolCall, ToolMessage
-from tau2_optimized_harness_syn_10.data_model.tasks import Action, EnvFunctionCall, InitializationData
-from tau2_optimized_harness_syn_10.environment.environment import Environment, EnvironmentInfo
-from tau2_optimized_harness_syn_10.orchestrator.utils import is_valid_environment_message
-from tau2_optimized_harness_syn_10.registry import registry
+from tau2.data_model.message import AssistantMessage, Message, ToolCall, ToolMessage
+from tau2.data_model.tasks import Action, EnvFunctionCall, InitializationData
+from tau2.environment.environment import Environment, EnvironmentInfo
+from tau2.orchestrator.utils import is_valid_environment_message
+from tau2.registry import registry
 
 
 class StartEnvironmentRequest(BaseModel):
