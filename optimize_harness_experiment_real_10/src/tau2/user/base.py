@@ -5,7 +5,7 @@ from typing import Optional
 from loguru import logger
 from pydantic import BaseModel
 
-from tau2_optimized_harness_real_10.data_model.message import (
+from tau2.data_model.message import (
     APICompatibleMessage,
     AssistantMessage,
     Message,

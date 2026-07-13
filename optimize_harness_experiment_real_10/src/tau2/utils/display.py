@@ -7,16 +7,16 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
-from tau2_optimized_harness_real_10.data_model.message import (
+from tau2.data_model.message import (
     AssistantMessage,
     Message,
     SystemMessage,
     ToolMessage,
     UserMessage,
 )
-from tau2_optimized_harness_real_10.data_model.simulation import RunConfig, SimulationRun
-from tau2_optimized_harness_real_10.data_model.tasks import Action, Task
-from tau2_optimized_harness_real_10.metrics.agent_metrics import AgentMetrics, is_successful
+from tau2.data_model.simulation import RunConfig, SimulationRun
+from tau2.data_model.tasks import Action, Task
+from tau2.metrics.agent_metrics import AgentMetrics, is_successful
 
 
 class ConsoleDisplay:

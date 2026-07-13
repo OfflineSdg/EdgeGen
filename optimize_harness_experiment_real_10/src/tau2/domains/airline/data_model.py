@@ -2,8 +2,8 @@ from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 
 from pydantic import BaseModel, Field
 
-from tau2_optimized_harness_real_10.domains.airline.utils import AIRLINE_DB_PATH
-from tau2_optimized_harness_real_10.environment.db import DB
+from tau2.domains.airline.utils import AIRLINE_DB_PATH
+from tau2.environment.db import DB
 
 FlightType = Literal["round_trip", "one_way"]
 CabinClass = Literal["business", "economy", "basic_economy"]

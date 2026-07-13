@@ -5,8 +5,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import create_model
 from typing_extensions import Annotated
 
-from tau2_optimized_harness_real_10.environment.environment import Environment
-from tau2_optimized_harness_real_10.environment.toolkit import get_tool_signatures
+from tau2.environment.environment import Environment
+from tau2.environment.toolkit import get_tool_signatures
 
 
 class EnvironmentServer:

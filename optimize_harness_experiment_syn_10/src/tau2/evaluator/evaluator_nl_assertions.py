@@ -1,10 +1,10 @@
 import json
 
-from tau2_optimized_harness_syn_10.config import DEFAULT_LLM_NL_ASSERTIONS, DEFAULT_LLM_NL_ASSERTIONS_ARGS
-from tau2_optimized_harness_syn_10.data_model.message import Message, SystemMessage, UserMessage
-from tau2_optimized_harness_syn_10.data_model.simulation import NLAssertionCheck, RewardInfo
-from tau2_optimized_harness_syn_10.data_model.tasks import RewardType, Task
-from tau2_optimized_harness_syn_10.utils.llm_utils import generate
+from tau2.config import DEFAULT_LLM_NL_ASSERTIONS, DEFAULT_LLM_NL_ASSERTIONS_ARGS
+from tau2.data_model.message import Message, SystemMessage, UserMessage
+from tau2.data_model.simulation import NLAssertionCheck, RewardInfo
+from tau2.data_model.tasks import RewardType, Task
+from tau2.utils.llm_utils import generate
 
 
 class NLAssertionsEvaluator:

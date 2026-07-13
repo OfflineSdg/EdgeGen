@@ -9,7 +9,7 @@ from litellm.caching.caching import Cache
 from litellm.main import ModelResponse, Usage
 from loguru import logger
 
-from tau2_optimized_harness_real_10.config import (
+from tau2.config import (
     DEFAULT_LLM_CACHE_TYPE,
     DEFAULT_MAX_RETRIES,
     LLM_CACHE_ENABLED,
@@ -22,7 +22,7 @@ from tau2_optimized_harness_real_10.config import (
     USE_LANGFUSE,
     DEFAULT_LLM_AGENT
 )
-from tau2_optimized_harness_real_10.data_model.message import (
+from tau2.data_model.message import (
     AssistantMessage,
     Message,
     SystemMessage,
@@ -30,7 +30,7 @@ from tau2_optimized_harness_real_10.data_model.message import (
     ToolMessage,
     UserMessage,
 )
-from tau2_optimized_harness_real_10.environment.tool import Tool
+from tau2.environment.tool import Tool
 
 # litellm._turn_on_debug()
 

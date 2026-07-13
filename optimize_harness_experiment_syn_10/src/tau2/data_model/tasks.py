@@ -9,7 +9,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from typing_extensions import Annotated
 
-from tau2_optimized_harness_syn_10.data_model.message import Message, ToolCall, ToolRequestor
+from tau2.data_model.message import Message, ToolCall, ToolRequestor
 
 
 class StructuredUserInstructions(BaseModel):

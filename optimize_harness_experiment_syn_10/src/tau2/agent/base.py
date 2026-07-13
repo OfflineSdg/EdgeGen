@@ -3,14 +3,14 @@ from typing import Generic, Optional, TypeVar
 
 from loguru import logger
 
-from tau2_optimized_harness_syn_10.data_model.message import (
+from tau2.data_model.message import (
     AssistantMessage,
     Message,
     MultiToolMessage,
     ToolMessage,
     UserMessage,
 )
-from tau2_optimized_harness_syn_10.environment.tool import Tool
+from tau2.environment.tool import Tool
 
 # Define TypeVar for the agent state type
 AgentState = TypeVar("AgentState")

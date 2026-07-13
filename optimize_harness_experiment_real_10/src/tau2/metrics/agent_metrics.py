@@ -5,7 +5,7 @@ import pandas as pd
 from loguru import logger
 from pydantic import BaseModel
 
-from tau2_optimized_harness_real_10.data_model.simulation import Results
+from tau2.data_model.simulation import Results
 
 
 def is_successful(reward: float) -> bool:

@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
-from tau2_optimized_harness_real_10.utils import dump_file, get_pydantic_hash, load_file
-from tau2_optimized_harness_real_10.utils.pydantic_utils import BaseModelNoExtra
+from tau2.utils import dump_file, get_pydantic_hash, load_file
+from tau2.utils.pydantic_utils import BaseModelNoExtra
 
 
 class DB(BaseModelNoExtra):

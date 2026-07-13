@@ -3,9 +3,9 @@ from typing import Annotated, Any, Callable, Dict, Optional, TypeVar
 
 from pydantic import BaseModel, Field
 
-from tau2_optimized_harness_syn_10.environment.db import DB
-from tau2_optimized_harness_syn_10.environment.tool import Tool, as_tool
-from tau2_optimized_harness_syn_10.utils import get_dict_hash, update_pydantic_model_with_dict
+from tau2.environment.db import DB
+from tau2.environment.tool import Tool, as_tool
+from tau2.utils import get_dict_hash, update_pydantic_model_with_dict
 
 TOOL_ATTR = "__tool__"
 TOOL_TYPE_ATTR = "__tool_type__"

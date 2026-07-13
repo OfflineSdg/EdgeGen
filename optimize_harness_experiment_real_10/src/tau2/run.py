@@ -7,8 +7,8 @@ from typing import Optional
 
 from loguru import logger
 
-from tau2_optimized_harness_real_10.agent.llm_agent import LLMAgent, LLMGTAgent, LLMSoloAgent
-from tau2_optimized_harness_real_10.data_model.simulation import (
+from tau2.agent.llm_agent import LLMAgent, LLMGTAgent, LLMSoloAgent
+from tau2.data_model.simulation import (
     AgentInfo,
     Info,
     Results,
@@ -16,16 +16,16 @@ from tau2_optimized_harness_real_10.data_model.simulation import (
     SimulationRun,
     UserInfo,
 )
-from tau2_optimized_harness_real_10.data_model.tasks import Task
-from tau2_optimized_harness_real_10.environment.environment import Environment, EnvironmentInfo
-from tau2_optimized_harness_real_10.evaluator.evaluator import EvaluationType, evaluate_simulation
-from tau2_optimized_harness_real_10.metrics.agent_metrics import compute_metrics
-from tau2_optimized_harness_real_10.orchestrator.orchestrator import Orchestrator
-from tau2_optimized_harness_real_10.registry import RegistryInfo, registry
-from tau2_optimized_harness_real_10.user.user_simulator import DummyUser, get_global_user_sim_guidelines
-from tau2_optimized_harness_real_10.utils.display import ConsoleDisplay
-from tau2_optimized_harness_real_10.utils.pydantic_utils import get_pydantic_hash
-from tau2_optimized_harness_real_10.utils.utils import DATA_DIR, get_commit_hash, get_now, show_dict_diff
+from tau2.data_model.tasks import Task
+from tau2.environment.environment import Environment, EnvironmentInfo
+from tau2.evaluator.evaluator import EvaluationType, evaluate_simulation
+from tau2.metrics.agent_metrics import compute_metrics
+from tau2.orchestrator.orchestrator import Orchestrator
+from tau2.registry import RegistryInfo, registry
+from tau2.user.user_simulator import DummyUser, get_global_user_sim_guidelines
+from tau2.utils.display import ConsoleDisplay
+from tau2.utils.pydantic_utils import get_pydantic_hash
+from tau2.utils.utils import DATA_DIR, get_commit_hash, get_now, show_dict_diff
 
 
 def get_options() -> RegistryInfo:

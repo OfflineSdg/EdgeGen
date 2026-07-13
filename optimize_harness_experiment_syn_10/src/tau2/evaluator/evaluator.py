@@ -1,12 +1,12 @@
 from enum import Enum
 
-from tau2_optimized_harness_syn_10.data_model.simulation import RewardInfo, SimulationRun, TerminationReason
-from tau2_optimized_harness_syn_10.data_model.tasks import RewardType, Task
-from tau2_optimized_harness_syn_10.evaluator.evaluator_action import ActionEvaluator
-from tau2_optimized_harness_syn_10.evaluator.evaluator_communicate import CommunicateEvaluator
-from tau2_optimized_harness_syn_10.evaluator.evaluator_env import EnvironmentEvaluator
-from tau2_optimized_harness_syn_10.evaluator.evaluator_nl_assertions import NLAssertionsEvaluator
-from tau2_optimized_harness_syn_10.registry import registry
+from tau2.data_model.simulation import RewardInfo, SimulationRun, TerminationReason
+from tau2.data_model.tasks import RewardType, Task
+from tau2.evaluator.evaluator_action import ActionEvaluator
+from tau2.evaluator.evaluator_communicate import CommunicateEvaluator
+from tau2.evaluator.evaluator_env import EnvironmentEvaluator
+from tau2.evaluator.evaluator_nl_assertions import NLAssertionsEvaluator
+from tau2.registry import registry
 
 
 class EvaluationType(str, Enum):

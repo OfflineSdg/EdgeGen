@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tau2_optimized_harness_syn_10.utils.utils import DATA_DIR
+from tau2.utils.utils import DATA_DIR
 
 _AIRLINE_SRC_DIR = Path(__file__).parent
 AIRLINE_DATA_DIR = DATA_DIR / "tau2" / "domains" / "airline"

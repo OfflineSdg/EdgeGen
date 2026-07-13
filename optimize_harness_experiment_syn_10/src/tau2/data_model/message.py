@@ -3,7 +3,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
-from tau2_optimized_harness_syn_10.utils.utils import get_now
+from tau2.utils.utils import get_now
 
 SystemRole = Literal["system"]
 UserRole = Literal["user"]

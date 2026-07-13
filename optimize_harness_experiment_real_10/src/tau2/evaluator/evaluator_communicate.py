@@ -1,7 +1,7 @@
-from tau2_optimized_harness_real_10.data_model.message import AssistantMessage, Message
-from tau2_optimized_harness_real_10.data_model.simulation import CommunicateCheck, RewardInfo
-from tau2_optimized_harness_real_10.data_model.tasks import RewardType, Task
-from tau2_optimized_harness_real_10.evaluator.evaluator_base import EvaluatorBase
+from tau2.data_model.message import AssistantMessage, Message
+from tau2.data_model.simulation import CommunicateCheck, RewardInfo
+from tau2.data_model.tasks import RewardType, Task
+from tau2.evaluator.evaluator_base import EvaluatorBase
 
 
 class CommunicateEvaluator(EvaluatorBase):

@@ -1,6 +1,6 @@
 import argparse
 
-from tau2_optimized_harness_real_10.config import (
+from tau2.config import (
     DEFAULT_AGENT_IMPLEMENTATION,
     DEFAULT_LLM_AGENT,
     DEFAULT_LLM_TEMPERATURE_AGENT,
@@ -14,8 +14,8 @@ from tau2_optimized_harness_real_10.config import (
     DEFAULT_SEED,
     DEFAULT_USER_IMPLEMENTATION,
 )
-from tau2_optimized_harness_real_10.data_model.simulation import RunConfig
-from tau2_optimized_harness_real_10.run import get_options, run_domain
+from tau2.data_model.simulation import RunConfig
+from tau2.run import get_options, run_domain
 
 
 def add_run_args(parser):
@@ -201,7 +201,7 @@ def main():
 
 
 def run_view_simulations(args):
-    from tau2_optimized_harness_real_10.scripts.view_simulations import main as view_main
+    from tau2.scripts.view_simulations import main as view_main
 
     view_main(
         sim_file=args.file,
@@ -211,13 +211,13 @@ def run_view_simulations(args):
 
 
 def run_show_domain(args):
-    from tau2_optimized_harness_real_10.scripts.show_domain_doc import main as domain_main
+    from tau2.scripts.show_domain_doc import main as domain_main
 
     domain_main(args.domain)
 
 
 def run_start_servers():
-    from tau2_optimized_harness_real_10.scripts.start_servers import main as start_main
+    from tau2.scripts.start_servers import main as start_main
 
     start_main()
 
